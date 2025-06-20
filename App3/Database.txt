@@ -1,0 +1,66 @@
+-- T?o b?ng ThuThu
+CREATE TABLE ThuThu (
+    MaThuThu INT IDENTITY(1,1) PRIMARY KEY,
+    TenDangNhap VARCHAR(50),
+    MatKhau VARCHAR(50),
+    Email VARCHAR(100) NOT NULL
+);
+
+-- T?o b?ng Books
+CREATE TABLE Books (
+    BookID NVARCHAR(20) PRIMARY KEY,
+    Title NVARCHAR(100),
+    Author NVARCHAR(100),
+    PublishYear INT,
+    Publisher NVARCHAR(100),
+    Category NVARCHAR(50),
+    Quantity INT
+);
+
+-- T?o b?ng Readers
+CREATE TABLE Readers (
+    ReaderID NVARCHAR(20) PRIMARY KEY,
+    Name NVARCHAR(100),
+    BirthDate DATE,
+    Email NVARCHAR(100),
+    Phone NVARCHAR(20)
+);
+
+-- T?o b?ng Loan
+CREATE TABLE Loan (
+    LoanID NVARCHAR(20) PRIMARY KEY,
+    ReaderID NVARCHAR(20) FOREIGN KEY REFERENCES Readers(ReaderID),
+    BookID NVARCHAR(20) FOREIGN KEY REFERENCES Books(BookID),
+    BorrowDate DATE NOT NULL,
+    DueDate DATE NOT NULL,
+    ReturnDate DATE NULL,
+    Status NVARCHAR(20) NOT NULL DEFAULT 'Not Returned',
+    FineAmount INT DEFAULT 0
+);
+
+-- Chèn d? li?u m?u cho ThuThu
+INSERT INTO ThuThu (TenDangNhap, MatKhau, Email) VALUES
+('tuvu', 'tuvu', 'tuvu@xai.com'),
+('admin', 'admin123', 'admin@xai.com');
+
+-- Chèn d? li?u m?u cho Books
+INSERT INTO Books (BookID, Title, Author, PublishYear, Publisher, Category, Quantity) VALUES
+('B001', 'C# Programming', 'Nguyen Van A', 2021, 'NXB Tre', 'Lap trinh', 10),
+('B002', 'Co so du lieu', 'Tran Thi B', 2020, 'NXB Giao duc', 'Cong nghe thong tin', 7),
+('B003', 'Toan cao cap', 'Le Van C', 2019, 'NXB Dai hoc Quoc gia', 'Toan hoc', 5),
+('B004', 'Hoa hoc dai cuong', 'Pham Thi D', 2022, 'NXB Khoa hoc', 'Khoa hoc tu nhien', 8),
+('B005', 'Marketing can ban', 'Ngo Van E', 2023, 'NXB Kinh te', 'Kinh te', 6);
+
+-- Chèn d? li?u m?u cho Readers
+INSERT INTO Readers (ReaderID, Name, BirthDate, Email, Phone) VALUES
+('R001', 'Le Hoang Anh', '2002-05-12', 'anh.le@gmail.com', '0912345678'),
+('R002', 'Nguyen Thi Hoa', '2001-08-23', 'hoa.nguyen@yahoo.com', '0987654321'),
+('R003', 'Tran Minh Khoa', '2003-11-15', 'khoa.tran@hotmail.com', '0909123456'),
+('R004', 'Pham Quoc Bao', '2000-03-30', 'bao.pham@gmail.com', '0978123456'),
+('R005', 'Dang My Linh', '1999-12-01', 'linh.dang@gmail.com', '0934567890');
+
+-- Chèn d? li?u m?u cho Loan
+INSERT INTO Loan (LoanID, ReaderID, BookID, BorrowDate, DueDate, ReturnDate, Status, FineAmount) VALUES
+('L001', 'R001', 'B001', '2025-06-01', '2025-06-15', NULL, 'Not Returned', 0), -- Qua han 4 ngay (19/06/2025)
+('L002', 'R002', 'B002', '2025-06-05', '2025-06-19', NULL, 'Not Returned', 0), -- Den han hom nay
+('L003', 'R003', 'B003', '2025-06-10', '2025-06-24', NULL, 'Not Returned', 0); -- Chua den han
